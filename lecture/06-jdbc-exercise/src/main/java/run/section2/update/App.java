@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
@@ -36,6 +37,20 @@ public class App {
 
         try (FileInputStream fis = new FileInputStream("src/main/java/mapper/menu-query.xml")) {
             prop.loadFromXML(fis);
+            pstmt = conn.prepareStatement(prop.getProperty("selectMenu"));
+            pstmt.setInt(1, menuNumber);
+            ResultSet rSet = pstmt.executeQuery();
+            if(rSet.next()) {
+                MenuDTO menu = new MenuDTO(
+                        rSet.getInt("menu_code"),
+                        rSet.getString("menu_name"),
+                        rSet.getInt("menu_price"),
+                        rSet.getInt("category_code"),
+                        rSet.getString("orderable_status")
+                );
+                System.out.println("결과: " + menu.toString());
+            }
+
 
             pstmt = conn.prepareStatement(prop.getProperty("updateMenu"));
             pstmt.setString(1, newMenu.getMenu_name());
