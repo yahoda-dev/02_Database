@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <!-- INSERT -->
+    <entry key="insertMenu">
+        insert into tbl_menu(
+        menu_name,
+        menu_price,
+        category_code,
+        orderable_status
+        ) values (?,?,?,?)
+    </entry>
+
+    <!-- UPDATE -->
+    <entry key="updateMenu">
+        UPDATE tbl_menu
+        SET menu_name = ?, menu_price = ?
+        WHERE menu_code = ?
+    </entry>
+
+    <!-- DELETE -->
+    <entry key="deleteMenu">
+        delete from tbl_menu where menu_code = ?;
+    </entry>
+
+    <!-- SELECT -->
+    <entry key="selectMenu">
+        select * from tbl_menu where menu_code = ?;
+    </entry>
+
+    <entry key="joinMenuAndCategory">
+        select
+        m.menu_code,
+        m.menu_name,
+        m.menu_price,
+        m.orderable_status,
+        c.category_code,
+        c.category_name,
+        c.ref_category_code
+        from tbl_menu m
+        join tbl_category c
+        on m.category_code = c.category_code
+        where m.menu_code = ?
+    </entry>
+</properties>
